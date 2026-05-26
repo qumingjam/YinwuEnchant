@@ -13,8 +13,8 @@ public class Darkspeed extends CustomEnchantment {
     private final ConfigManager configManager;
     private ScheduledTask particleTask;
     private ScheduledTask soundTask;
-    // 缓存玩家的速度等级，避免频繁更新
-    private final java.util.Map<java.util.UUID, Integer> playerSpeedLevels = new java.util.HashMap<>();
+    // 缓存玩家的速度等级，避免频繁更新（使用 ConcurrentHashMap 保证线程安全）
+    private final java.util.Map<java.util.UUID, Integer> playerSpeedLevels = new java.util.concurrent.ConcurrentHashMap<>();
     
     public Darkspeed(YinwuEnchantments plugin) {
         super(plugin, "darkspeed", "黑暗行者", 3, new Material[] {
