@@ -198,3 +198,14 @@ if (yinwuPlugin instanceof YinwuEnchantments) {
 ---
 
 <p align="center">Made with ❤️ by qumingjam</p>
+
+---
+
+## 优化记录
+
+- `Harvest.java`/`MasterOfBeefSlicing.java`/`EnchantmentAcquisitionManager.java`：`new Random()` 替换为 `ThreadLocalRandom.current()`
+- 8 个附魔类补充缺失的 `@Override` 注解
+- `EnchantmentManager.eventSubscribers`：`HashMap` → `ConcurrentHashMap`
+- `EnchantmentAcquisitionManager`：新增 `NamespacedKey` 缓存 `getKey()`，避免每 tick 重建
+- `onDisable()` 新增 `Bukkit.getGlobalRegionScheduler().cancelTasks(this)` 和 `HandlerList.unregisterAll(this)`
+- 附魔类移除冗余 `isOnline()` 检查（`getScheduler().run()` 已处理）
