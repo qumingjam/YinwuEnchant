@@ -1,5 +1,7 @@
 # YinwuEnchant
 
+**最新版本：v1.2.0** | [下载 Release](https://github.com/qumingjam/YinwuEnchant/releases/tag/v1.2.0)
+
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21+-brightgreen.svg)](https://minecraft.net)
 [![Folia](https://img.shields.io/badge/Folia-✓-blue.svg)](https://papermc.io/software/folia)
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://adoptium.net)
@@ -201,7 +203,7 @@ if (yinwuPlugin instanceof YinwuEnchantments) {
 
 ---
 
-## 优化记录
+## 📋 更新日志 (v1.2.0)
 
 - `Harvest.java`/`MasterOfBeefSlicing.java`/`EnchantmentAcquisitionManager.java`：`new Random()` 替换为 `ThreadLocalRandom.current()`
 - 8 个附魔类补充缺失的 `@Override` 注解
