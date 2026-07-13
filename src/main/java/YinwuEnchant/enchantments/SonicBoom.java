@@ -27,6 +27,7 @@ public class SonicBoom extends CustomEnchantment {
         this.configManager = plugin.getConfigManager();
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("音波爆裂 " + getRomanNumeral(level));
     }
@@ -42,7 +43,6 @@ public class SonicBoom extends CustomEnchantment {
         int interval = configManager.getInt("sonic_boom.check-interval");
         task = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (t) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.isDead() || !player.isOnline()) continue;
                 
                 if (hasEnchantment(player.getInventory().getChestplate())) {
                     player.getScheduler().run(plugin, (task) -> extinguishNearbySoulCampfires(player), null);

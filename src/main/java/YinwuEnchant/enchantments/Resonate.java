@@ -20,6 +20,7 @@ public class Resonate extends CustomEnchantment {
         this.configManager = plugin.getConfigManager();
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("共振 " + getRomanNumeral(level));
     }
@@ -92,7 +93,7 @@ public class Resonate extends CustomEnchantment {
                 Sound sound;
                 try {
                     // 使用 NamespacedKey 从 Registry 获取声音
-                    org.bukkit.NamespacedKey key = org.bukkit.NamespacedKey.minecraft(soundTypeStr.toLowerCase().replace("_", "-"));
+                    org.bukkit.NamespacedKey key = org.bukkit.NamespacedKey.fromString("minecraft:" + soundTypeStr.toLowerCase().replace("_", "-"));
                     sound = org.bukkit.Registry.SOUNDS.get(key);
                     if (sound == null) {
                         // 如果找不到，静默使用默认音效

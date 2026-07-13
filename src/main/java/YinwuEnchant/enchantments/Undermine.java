@@ -30,6 +30,7 @@ public class Undermine extends CustomEnchantment {
         this.configManager = plugin.getConfigManager();
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("深层矿工 " + getRomanNumeral(level));
     }
@@ -45,7 +46,6 @@ public class Undermine extends CustomEnchantment {
         int interval = configManager.getInt("undermine.check-interval");
         checkTask = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.isDead() || !player.isOnline()) continue;
                 
                 // 在玩家所在区域执行效果应用
                 player.getScheduler().run(plugin, (t) -> checkAndApplyEffect(player), null);

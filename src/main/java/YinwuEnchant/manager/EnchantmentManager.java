@@ -7,6 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class EnchantmentManager {
@@ -15,7 +16,7 @@ public class EnchantmentManager {
     private final Map<String, CustomEnchantment> enchantments = new HashMap<>();
     
     // 事件订阅者模式 - 性能优化
-    private final Map<Class<? extends Event>, List<Consumer<Event>>> eventSubscribers = new HashMap<>();
+    private final Map<Class<? extends Event>, List<Consumer<Event>>> eventSubscribers = new ConcurrentHashMap<>();
     
     public EnchantmentManager(YinwuEnchantments plugin, ConfigManager configManager) {
         this.plugin = plugin;

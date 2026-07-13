@@ -26,6 +26,7 @@ public class Darkspeed extends CustomEnchantment {
         this.configManager = plugin.getConfigManager();
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("黑暗行者 " + getRomanNumeral(level));
     }
@@ -44,7 +45,6 @@ public class Darkspeed extends CustomEnchantment {
         // 粒子效果任务
         particleTask = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (t) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.isDead() || !player.isOnline()) continue;
                 
                 if (isInDarkness(player) && hasEnchantment(player.getInventory().getBoots())) {
                     int level = getEnchantmentLevel(player.getInventory().getBoots());
@@ -58,7 +58,6 @@ public class Darkspeed extends CustomEnchantment {
         // 音效任务
         soundTask = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (t) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.isDead() || !player.isOnline()) continue;
                 
                 if (isInDarkness(player) && hasEnchantment(player.getInventory().getBoots())) {
                     int level = getEnchantmentLevel(player.getInventory().getBoots());
@@ -163,7 +162,7 @@ public class Darkspeed extends CustomEnchantment {
         Sound sound;
         try {
             // 使用 NamespacedKey 从 Registry 获取声音
-            org.bukkit.NamespacedKey key = org.bukkit.NamespacedKey.minecraft(soundTypeStr.toLowerCase().replace("_", "-"));
+            org.bukkit.NamespacedKey key = org.bukkit.NamespacedKey.fromString("minecraft:" + soundTypeStr.toLowerCase().replace("_", "-"));
             sound = org.bukkit.Registry.SOUNDS.get(key);
             if (sound == null) {
                 // 如果找不到，静默使用默认音效

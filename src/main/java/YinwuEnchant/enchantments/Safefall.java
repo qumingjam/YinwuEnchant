@@ -19,6 +19,7 @@ public class Safefall extends CustomEnchantment {
         this.configManager = plugin.getConfigManager();
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("外骨骼 " + getRomanNumeral(level));
     }

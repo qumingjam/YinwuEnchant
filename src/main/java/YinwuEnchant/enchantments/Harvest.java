@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 丰收附魔 - Harvest Enchantment
@@ -274,54 +275,54 @@ public class Harvest extends CustomEnchantment {
             case WHEAT:
                 // 小麦：掉落小麦 + 种子（时运影响种子数量）
                 drops.add(new ItemStack(Material.WHEAT, 1));
-                int wheatSeeds = 1 + (fortuneLevel > 0 ? new Random().nextInt(fortuneLevel + 1) : 0);
+                int wheatSeeds = 1 + (fortuneLevel > 0 ? ThreadLocalRandom.current().nextInt(fortuneLevel + 1) : 0);
                 drops.add(new ItemStack(Material.WHEAT_SEEDS, wheatSeeds));
                 break;
                 
             case CARROTS:
                 // 胡萝卜：掉落胡萝卜（时运增加数量）
-                int carrots = 1 + (fortuneLevel > 0 ? new Random().nextInt(fortuneLevel + 2) : 0);
+                int carrots = 1 + (fortuneLevel > 0 ? ThreadLocalRandom.current().nextInt(fortuneLevel + 2) : 0);
                 drops.add(new ItemStack(Material.CARROT, carrots));
                 break;
                 
             case POTATOES:
                 // ✅ 土豆：匹配 Minecraft Java 版原版掉落机制
                 // 根据原版数据：无时运平均 3.71，时运 III 平均 5.43
-                Random random = new Random();
+                
                 
                 // 基础掉落 2-5 个（均匀分布）
-                int potatoes = 2 + random.nextInt(4);
+                int potatoes = 2 + ThreadLocalRandom.current().nextInt(4);
                 
                 // 时运效果：每级时运有概率额外增加掉落
                 // 时运 I: +0-1 (50%概率), 时运 II: +0-2, 时运 III: +0-3
                 if (fortuneLevel > 0) {
-                    potatoes += random.nextInt(fortuneLevel + 1);
+                    potatoes += ThreadLocalRandom.current().nextInt(fortuneLevel + 1);
                 }
                 
                 drops.add(new ItemStack(Material.POTATO, potatoes));
                 
                 // 2% 概率掉落毒土豆
-                if (random.nextDouble() < 0.02) {
+                if (ThreadLocalRandom.current().nextDouble() < 0.02) {
                     drops.add(new ItemStack(Material.POISONOUS_POTATO, 1));
                 }
                 break;
                 
             case BEETROOTS:
                 // 甜菜根：掉落甜菜根（时运增加数量）+ 1个种子
-                int beetroots = 1 + (fortuneLevel > 0 ? new Random().nextInt(fortuneLevel + 2) : 0);
+                int beetroots = 1 + (fortuneLevel > 0 ? ThreadLocalRandom.current().nextInt(fortuneLevel + 2) : 0);
                 drops.add(new ItemStack(Material.BEETROOT, beetroots));
                 drops.add(new ItemStack(Material.BEETROOT_SEEDS, 1));
                 break;
                 
             case NETHER_WART:
                 // 下界疣：掉落下界疣（时运增加数量）
-                int netherWarts = 1 + (fortuneLevel > 0 ? new Random().nextInt(fortuneLevel + 3) : 0);
+                int netherWarts = 1 + (fortuneLevel > 0 ? ThreadLocalRandom.current().nextInt(fortuneLevel + 3) : 0);
                 drops.add(new ItemStack(Material.NETHER_WART, netherWarts));
                 break;
                 
             case SWEET_BERRY_BUSH:
                 // 甜浆果丛：掉落甜浆果（时运增加数量），不重新种植
-                int sweetBerries = 1 + (fortuneLevel > 0 ? new Random().nextInt(fortuneLevel + 3) : 0);
+                int sweetBerries = 1 + (fortuneLevel > 0 ? ThreadLocalRandom.current().nextInt(fortuneLevel + 3) : 0);
                 drops.add(new ItemStack(Material.SWEET_BERRIES, sweetBerries));
                 break;
                 

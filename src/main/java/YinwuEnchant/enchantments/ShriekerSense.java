@@ -42,6 +42,7 @@ public class ShriekerSense extends CustomEnchantment {
         // ✅ 移除构造函数中的事件注册，改为在 onEnable() 中注册
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("幽匿探测 " + getRomanNumeral(level));
     }

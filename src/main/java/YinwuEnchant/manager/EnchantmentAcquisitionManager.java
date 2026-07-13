@@ -29,6 +29,12 @@ import java.util.Set;
 public class EnchantmentAcquisitionManager implements Listener {
     private final YinwuEnchantments plugin;
     private final EnchantmentManager enchantmentManager;
+    // NamespacedKey 缓存，避免每 tick 重建
+    private final java.util.Map<String, NamespacedKey> keyCache = new java.util.concurrent.ConcurrentHashMap<>();
+    
+    private NamespacedKey getKey(String enchantId) {
+        return keyCache.computeIfAbsent(enchantId, id -> new NamespacedKey(plugin, "enchantment_" + id.replace("-", "_")));
+    }
     
     public EnchantmentAcquisitionManager(YinwuEnchantments plugin, EnchantmentManager enchantmentManager) {
         this.plugin = plugin;
@@ -50,7 +56,7 @@ public class EnchantmentAcquisitionManager implements Listener {
             return;
         }
         
-        Random random = new Random();
+        Random random = ThreadLocalRandom.current();
         double harvestChance = plugin.getConfigManager().getRawConfig().getDouble("acquisition.harvest-fish-chance", 0.02);
         
         if (random.nextDouble() < harvestChance) {
@@ -84,7 +90,7 @@ public class EnchantmentAcquisitionManager implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
-        Random random = new Random();
+        Random random = ThreadLocalRandom.current();
         
         // 1. 幻影守护者：幻翼 5% 概率掉落
         if (entity instanceof Phantom) {
@@ -173,8 +179,7 @@ public class EnchantmentAcquisitionManager implements Listener {
                 
                 // 优先检查是否包含我们的自定义附魔（PersistentDataContainer）
                 for (String enchantId : enchantmentManager.getEnchantmentIds()) {
-                    NamespacedKey key = new NamespacedKey(plugin, "enchantment_" + enchantId.replace("-", "_"));
-                    Integer level = storageMeta.getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
+                    Integer level = storageMeta.getPersistentDataContainer().get(getKey(enchantId), PersistentDataType.INTEGER);
                     
                     if (level != null && level > 0) {
                         CustomEnchantment enchant = enchantmentManager.getEnchantment(enchantId);
@@ -211,10 +216,9 @@ public class EnchantmentAcquisitionManager implements Listener {
         
         // 遍历所有附魔ID，查找相同的附魔
         for (String enchantId : enchantmentManager.getEnchantmentIds()) {
-            NamespacedKey key = new NamespacedKey(plugin, "enchantment_" + enchantId.replace("-", "_"));
-            
-            Integer level1 = meta1.getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
-            Integer level2 = meta2.getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
+            NamespacedKey k = getKey(enchantId);
+            Integer level1 = meta1.getPersistentDataContainer().get(k, PersistentDataType.INTEGER);
+            Integer level2 = meta2.getPersistentDataContainer().get(k, PersistentDataType.INTEGER);
             
             // 如果两个书都有这个附魔，且等级相同，可以升级
             if (level1 != null && level2 != null && level1.equals(level2)) {
@@ -312,8 +316,7 @@ public class EnchantmentAcquisitionManager implements Listener {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
         
         if (meta != null) {
-            NamespacedKey key = new NamespacedKey(plugin, "enchantment_" + enchantmentId.replace("-", "_"));
-            meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, level);
+            meta.getPersistentDataContainer().set(getKey(enchantmentId), PersistentDataType.INTEGER, level);
             
             // ✅ 单等级附魔不显示罗马数字
             String displayName = enchant.getMaxLevel() == 1 ? 

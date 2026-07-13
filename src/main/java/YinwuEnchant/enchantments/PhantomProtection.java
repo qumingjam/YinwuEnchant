@@ -76,7 +76,6 @@ public class PhantomProtection extends CustomEnchantment {
         scanTask = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, task -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!protectionCache.contains(player.getUniqueId())) continue;
-                if (player.isDead() || !player.isOnline()) continue;
                 
                 player.getScheduler().run(plugin, t -> repelPhantoms(player), null);
             }

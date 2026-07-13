@@ -24,6 +24,7 @@ public class Clearsight extends CustomEnchantment {
         this.configManager = plugin.getConfigManager();
     }
     
+    	@Override
     public Component displayName(int level) {
         return Component.text("明目 " + getRomanNumeral(level));
     }
@@ -39,7 +40,6 @@ public class Clearsight extends CustomEnchantment {
         int interval = configManager.getInt("clearsight.check-interval");
         task = plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (t) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.isDead() || !player.isOnline()) continue;
                 
                 player.getScheduler().run(plugin, (task) -> {
                     if (hasEnchantment(player.getInventory().getHelmet())) {

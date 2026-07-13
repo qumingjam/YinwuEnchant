@@ -63,7 +63,6 @@ public class CatsPaw extends CustomEnchantment {
         // 启动定时任务，模拟原版猫的AI检测频率（每checkInterval刻）
         plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.isOnline() || player.isDead()) continue;
                 
                 ItemStack boots = player.getInventory().getBoots();
                 if (boots == null || !hasEnchantment(boots)) continue;

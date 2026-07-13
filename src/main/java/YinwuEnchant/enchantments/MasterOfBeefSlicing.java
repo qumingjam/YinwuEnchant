@@ -111,7 +111,7 @@ public class MasterOfBeefSlicing extends CustomEnchantment {
      */
     private void spawnMooshroomDrops(Location location, World world, MushroomCow.Variant variant,
                                      boolean hasFireAspect, int dropAmount) {
-        Random random = new Random();
+        Random random = ThreadLocalRandom.current();
         Location dropLoc = location.add(0, 0.5, 0);
         
         if (hasFireAspect) {
@@ -180,7 +180,7 @@ public class MasterOfBeefSlicing extends CustomEnchantment {
      * 根据生物类型和火焰附加获取对应的肉类
      */
     private ItemStack getMeatDrop(EntityType type, boolean hasFireAspect) {
-        Random random = new Random();
+        Random random = ThreadLocalRandom.current();
         
         // 牛（蘑菇牛已在外部处理）
         if (type == EntityType.COW) {

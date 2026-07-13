@@ -6,6 +6,7 @@ import YinwuEnchant.manager.EnchantmentAcquisitionManager;
 import YinwuEnchant.manager.EnchantmentManager;
 import YinwuEnchant.manager.EventListener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.event.HandlerList;
 
 public final class YinwuEnchantments extends JavaPlugin {
     private ConfigManager configManager;
@@ -44,17 +45,15 @@ public final class YinwuEnchantments extends JavaPlugin {
     
     @Override
     public void onDisable() {
-        // 禁用所有附魔
         if (enchantmentManager != null) {
             enchantmentManager.disableAll();
         }
-        
-        // ✅ 日志规范化：只在调试模式下输出
         if (configManager != null && configManager.getBoolean("debug")) {
             getLogger().info("YinwuEnchantments 已禁用。");
         } else {
             getLogger().fine("YinwuEnchantments 已禁用。");
         }
+        HandlerList.unregisterAll(this);
     }
     
     public ConfigManager getConfigManager() {

@@ -65,7 +65,6 @@ public class Nasus extends CustomEnchantment {
         // ✅ Folia 兼容：初始延迟为 1L，不使用 0
         plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.isOnline() || player.isDead()) continue;
                 
                 ItemStack helmet = player.getInventory().getHelmet();
                 if (helmet == null || !hasEnchantment(helmet)) continue;
